@@ -19,6 +19,8 @@
             Clockwise90DegreesRotateMatrix(matrix);
             Console.WriteLine("Transposition Matrix:");
             TranspositionMatrix(matrix);
+            Console.WriteLine("90 Degrees Clockwise Rotated Matrix (In-Place):");
+            ReverseRows(TransposeMatrixInPlace(matrix));
             return matrix;
         }
 
@@ -53,7 +55,7 @@
             PrintMatrix(rotatedMatrix);
         }
 
-        public static void TranspositionMatrix(int[,] matrix)
+        public static int[,] TranspositionMatrix(int[,] matrix)
         {
             int rowLength = matrix.GetLength(0);
             int colLength = matrix.GetLength(1);
@@ -67,7 +69,41 @@
             }
 
             PrintMatrix(transpositionMatrix);
+            return transpositionMatrix;
         }
+
+        //Matrix In Place solution
+        public static int[,] TransposeMatrixInPlace(int[,] matrix)
+        {
+            int n = matrix.GetLength(0); // Assuming a square matrix
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i + 1; j < n; j++) // Iterate only for upper triangle
+                {
+                    int temp = matrix[i, j];
+                    matrix[i, j] = matrix[j, i];
+                    matrix[j, i] = temp;
+                }
+            }
+            return matrix;
+        }
+
+        public static void ReverseRows(int[,] matrix)
+        {
+            int n = matrix.GetLength(0); // Number of rows
+            int m = matrix.GetLength(1); // Number of columns
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < m / 2; j++) // Iterate up to half the row length
+                {
+                    int temp = matrix[i, j];
+                    matrix[i, j] = matrix[i, m - 1 - j];
+                    matrix[i, m - 1 - j] = temp;
+                }
+            }
+            PrintMatrix(matrix);
+        }
+
         static void Main(string[] args)
         {
             GetMatrix(4, 4);
